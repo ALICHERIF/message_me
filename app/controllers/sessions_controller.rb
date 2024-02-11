@@ -5,11 +5,11 @@ class SessionsController < ApplicationController
   user = User.find_by(username: params[:session][:username].downcase)
     if user && user.authenticate(params[:session][:password])
       session[:user_id] = user.id
-  flash[:success] = "successful login "
-  redirect_to root_path
+      flash[:success] = "successful login "
+      redirect_to root_path
     else
       flash.now[:error] = "there was something wrong with your login details "
-      render 'new'
+render :new, status: :unprocessable_entity
       #binding.break
     end
   end
